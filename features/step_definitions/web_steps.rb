@@ -43,6 +43,18 @@ Given /^the blog is set up$/ do
                 :state => 'active'})
 end
 
+Given /^the blog is set up for user "([^"]*)" with password "([^"]*)" and profile id "([^"]*)"$/ do |user, password, profile|
+  Blog.default.update_attributes!({:blog_name => 'Teh Blag',
+                                   :base_url => 'http://localhost:3000'});
+  Blog.default.save!
+  User.create!({:login => user,
+                :password => password,
+                :email => 'joe@snow.com',
+                :profile_id => profile,
+                :name => user,
+                :state => 'active'})
+end
+
 And /^I am logged into the admin panel$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'admin'
@@ -52,6 +64,30 @@ And /^I am logged into the admin panel$/ do
     page.should have_content('Login successful')
   else
     assert page.has_content?('Login successful')
+  end
+end
+
+And /^I am logged in as user "([^"]*)" with password "([^"]*)"$/ do |user, password|
+  visit '/accounts/login'
+  fill_in 'user_login', :with => user
+  fill_in 'user_password', :with => password
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+And /^I have admin rights?$/ do
+  %w(Design Settings SEO).each do |content|
+    step %(I should see "#{content}")
+  end
+end  
+
+And /^I have no admin rights?$/ do
+  %w(Design Settings SEO).each do |content|
+    step %(I should not see "#{content}")
   end
 end
 

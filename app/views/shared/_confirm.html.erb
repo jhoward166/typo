@@ -1,7 +1,7 @@
 <div class='row'>
   <div class='span6 offset5'>
     <div class='well'>
-      <h2><%= _("Congratulations!") %></h2>
+      <h2><%= _("Congratulation!") %></h2>
       <p><%= _("You have successfully signed up") %></p>
       <p>
         <%= _("<strong>Login:</strong> %s", current_user.login)%>
@@ -10,7 +10,7 @@
         <%= _("<strong>Password:</strong> %s", session[:tmppass]) %>
       </p>
       <p>
-        <%= _("Please <strong>write down</strong> a copy of this login and password as you will need it later.  Normally we would email it to you as %s, however email services are likely not connected.", current_user.email)%>
+        <%= _("Don't lose the mail sent at %s or you won't be able to login anymore", current_user.email)%>
       </p>
       <p>
         <%= _("Proceed to %s",  link_to(_("admin"), :controller => 'admin/dashboard')) %>
