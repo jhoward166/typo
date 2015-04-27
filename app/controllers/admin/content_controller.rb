@@ -240,4 +240,11 @@ class Admin::ContentController < Admin::BaseController
   def setup_resources
     @resources = Resource.by_created_at
   end
+  def merge_articles
+    unless params[:merge_with].nil?
+      @article = Article.find(params[:id])
+      @article.merge_with(params[:merge_with])
+    end
+    redirect_to :action => 'edit', :id => @article.id
+  end
 end
